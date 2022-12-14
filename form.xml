@@ -5,8 +5,8 @@
     <model>
       <instance>
         <data id="test-api">
-          <first/>
-          <second/>
+          <first>0</first>
+          <second>0</second>
           <avg/>
           <meta>
             <instanceID/>
@@ -15,7 +15,7 @@
       </instance>
 
 
-      <bind nodeset="/data/avg" type="string" calculate="test-api('bar')" readonly="true()"/>
+      <bind nodeset="/data/avg" type="string" calculate="test-api('bar', /data/first , /data/second )" readonly="true()"/>
     </model>
   </h:head>
 
