@@ -1,34 +1,54 @@
-<h:html xmlns="http://www.w3.org/2002/xforms" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa">
+<?xml version="1.0"?>
+<h:html xmlns="http://www.w3.org/2002/xforms" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms">
   <h:head>
-    <h:title>test api() - Demo Form</h:title>
-
+    <h:title>Example Form</h:title>
     <model>
+      <itext>
+        <translation lang="en">
+          <text id="/example_form/my_group/first:label">
+            <value>First Number</value>
+          </text>
+          <text id="/example_form/my_group/note:label">
+            <value>Average: <output value=" /example_form/my_group/average "/>
+Difference: <output value=" /example_form/my_group/difference "/></value></text>
+          <text id="/example_form/my_group/second:label">
+            <value>Second Number</value>
+          </text>
+        </translation>
+      </itext>
       <instance>
-        <data id="test-api">
-          <first>0</first>
-          <second>0</second>
-          <avg/>
-          <meta>
+        <example_form id="example_form" prefix="J1!example_form!" delimiter="#" version="2023-01-17 00:00:00">
+          <my_group>
+            <first/>
+            <second/>
+            <average/>
+            <difference/>
+            <note/>
+          </my_group>
+          <meta tag="hidden">
             <instanceID/>
           </meta>
-        </data>
+        </example_form>
       </instance>
-
-
-      <bind nodeset="/data/avg" type="string" calculate="test-api('bar', /data/first , /data/second )" readonly="true()"/>
+      <instance id="contact-summary"/>
+      <bind nodeset="/example_form/my_group/first" type="int"/>
+      <bind nodeset="/example_form/my_group/second" type="int"/>
+      <bind nodeset="/example_form/my_group/average" type="string" calculate="test-api('bar', ../first, ../second)"/>
+      <bind nodeset="/example_form/my_group/difference" type="string" calculate="test-api('foo',  /example_form/my_group/first ,  /example_form/my_group/second )"/>
+      <bind nodeset="/example_form/my_group/note" readonly="true()" type="string"/>
+      <bind nodeset="/example_form/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
-
-  <h:body>
-    <group appearance="field-list" ref="/data">
-      <input ref="/data/first">
-        <label>first</label>
+  <h:body class="pages">
+    <group appearance="field-list" ref="/example_form/my_group">
+      <input ref="/example_form/my_group/first">
+        <label ref="jr:itext('/example_form/my_group/first:label')"/>
       </input>
-      <input ref="/data/second">
-        <label>second</label>
+      <input ref="/example_form/my_group/second">
+        <label ref="jr:itext('/example_form/my_group/second:label')"/>
       </input>
-      <input ref="/data/avg">
-        <label>avg</label>
+      <input ref="/example_form/my_group/note">
+        <label ref="jr:itext('/example_form/my_group/note:label')"/>
       </input>
     </group>
   </h:body>
